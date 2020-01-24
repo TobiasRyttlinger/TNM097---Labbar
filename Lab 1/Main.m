@@ -104,6 +104,7 @@ C = XYZ_D65_ref';
 A = pinv(D)*C;
 
 XYZ_values = D*A;
+save('XYZ_values')
 [max,mean]=CalcDiff(XYZ_values',XYZ_D65_ref)
 
 %% 3.5
