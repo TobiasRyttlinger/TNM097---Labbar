@@ -99,7 +99,7 @@ plot_chrom_sRGB(Acrt_cal);
 %% 3.6
 load('chips20')
 
-CalcMean(XYZ_Srgb',XYZ_ref);
+CalcMean(XYZ_Srgb,XYZ_ref);
 plot(400:5:700, S_rgb(:,1))
 hold on
 plot(400:5:700, chips20(1,:).*CIED65);
