@@ -8,16 +8,16 @@ load('Ad2.mat')
 y = 400:5:700;
 
 plot(y,Ad);
+legend('Red','Green','Blue')
 figure
 plot(y,Ad2);
-
+legend('Red','Green','Blue')
 %%
 load('illum.mat')
 load('chips20.mat')
 
 RGB_raw_D65 = Ad' * (chips20.*CIED65)';
 RGB_raw2_D65 = Ad2' * (chips20.*CIED65)';
-
 showRGB(RGB_raw_D65');
 showRGB(RGB_raw2_D65');
 
@@ -94,7 +94,7 @@ CalcDiff(XYZ_values,XYZ_D65_ref)
 %% 3.3
 
 plot(waverange,Ad);
-figure
+hold on
 plot(waverange,xyz);
 
 
