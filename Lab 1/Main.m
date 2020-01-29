@@ -76,7 +76,7 @@ RGB_cal_A = RGB_raw_A.*NormalzationFactor1;
 
 showRGB(RGB_cal_A')
 showRGB(RGB_cal_D65')
-
+RGB_cal_D65
 %The result looks different because it is not possible to get a correct
 %white point normalization for indoor lights.
 
@@ -85,7 +85,7 @@ showRGB(RGB_cal_D65')
 NewNormfactor_A = Ad' * CIEA';
 NewNormfactor_A = 1./NewNormfactor_A;
 NewNormfactor_D65 = Ad' * CIED65';
-NewNormfactor_D65 = 1./NewNormfactor_D65;
+NewNormfactor_D65 = 1./NewNormfactor_D65
 
 RGB_cal_A = RGB_raw_A.* NewNormfactor_A;
 RGB_cal_D65 = RGB_raw_D65 .* NewNormfactor_D65;
@@ -98,10 +98,12 @@ showRGB(RGB_cal_D65')
 
 load('xyz.mat')
 
-XYZ_D65_ref = xyz' * (chips20.*e)';
-XYZ_norm = xyz(:,2)'*e';
-XYZ_norm = 100./sum(XYZ_norm);
-XYZ_cal_D65 = XYZ_D65_ref * XYZ_norm;
+XYZ_norm = xyz(:,2)'*CIED65';
+XYZ_norm = 100/sum(XYZ_norm);
+XYZ_D65_ref = xyz' * (chips20.*CIED65)';
+
+
+XYZ_cal_D65 = XYZ_D65_ref * XYZ_norm
 
 
 
@@ -109,8 +111,8 @@ XYZ_cal_D65 = XYZ_D65_ref * XYZ_norm;
 
 load('M_XYZ2RGB.mat')
 
-XYZ_cal_D65= M_XYZ2RGB\RGB_cal_D65;
-CalcDiff(XYZ_cal_D65,XYZ_D65_ref)
+XYZ_cal_D65a= inv(M_XYZ2RGB)*RGB_cal_D65;
+CalcDiff(XYZ_cal_D65a,XYZ_cal_D65)
 
 
 
@@ -134,17 +136,17 @@ legend('x','y','z')
 
 %% 3.4
 D = RGB_cal_D65';
-C = XYZ_D65_ref';
+C = XYZ_cal_D65';
 A = pinv(D)*C;
 
 XYZ_values = D*A;
-CalcDiff(XYZ_values',XYZ_D65_ref);
+CalcDiff(XYZ_values',XYZ_cal_D65);
 
 %% 3.5
 
-XYZ_est = Polynomial_regression(RGB_cal_D65,Optimize_poly(RGB_cal_D65,XYZ_D65_ref));
+XYZ_est = Polynomial_regression(RGB_cal_D65,Optimize_poly(RGB_cal_D65,XYZ_cal_D65));
 
-[max,mean] = CalcDiff(XYZ_est,XYZ_D65_ref)
+[max,mean] = CalcDiff(XYZ_est,XYZ_cal_D65)
 
 
 
